@@ -12,6 +12,16 @@ Dim fileName As string = Command(1)
 Dim fileNumber As Long = FreeFile
 Open fileName For Binary Access Read As #fileNumber
 
+
+Function ByteToAscii(Byval byte_ as Ubyte) as String
+    If byte_ > asciiLowerBound And byte_ < asciiUpperBound Then
+        Return Chr(byte_)
+    Else
+        Return nonAsciiByte
+    End If
+End Function
+
+
 Dim fileIndex As Integer = 1
 
 Do
@@ -22,12 +32,8 @@ Do
         Dim byte_ As Ubyte
         Get #fileNumber,,byte_
         
-        If byte_ > asciiLowerBound and byte_ < asciiUpperBound Then
-            asciiBytes += Chr(byte_)
-        Else
-            asciiBytes += nonAsciiByte
-        End If
-        
+        asciiBytes += ByteToAscii(byte_)
+
         Print Hex(byte_, 2);" ";
         If byteIndex = bytesPerLine\2 Then Print " ";
         

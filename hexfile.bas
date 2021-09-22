@@ -22,25 +22,30 @@ Function ByteToAscii(Byval byte_ as Ubyte) as String
 End Function
 
 
-Dim fileIndex As Integer = 1
-
-Do
+Sub PrintLine(Byval fileIndex as Integer, Byval fileNumber as Integer)
     Dim asciiBytes As string = ""
+    
     Print Hex(fileIndex,6);Tab(hexColumn);
-
+    
     For byteIndex As integer = 1 To bytesPerLine
         Dim byte_ As Ubyte
-        Get #fileNumber,,byte_
+        Get #fileNumber,fileIndex + byteIndex - 1,byte_
         
         asciiBytes += ByteToAscii(byte_)
 
         Print Hex(byte_, 2);" ";
         If byteIndex = bytesPerLine\2 Then Print " ";
-        
-        fileIndex += 1
     Next
     
     Print Tab(asciiColumn);asciiBytes
+End Sub
+
+
+Dim fileIndex As Integer = 1
+
+Do
+    PrintLine(fileIndex, fileNumber)  
+    fileIndex += bytesPerLine
     If (fileIndex\bytesPerLine) mod (consoleHeight-1) = 0 Then Sleep
 Loop Until Eof(fileNumber)
 

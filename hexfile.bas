@@ -5,10 +5,18 @@ Const asciiUpperBound = 127
 Const hexColumn = 11
 Const asciiColumn = 64
 
-Dim consoleDimensions As integer = Width()
-Dim consoleHeight As integer = HiWord(consoleDimensions)
+Const Up = &H48FF
+Const PageUp = &H49FF
+Const Down = &H50FF
+Const PageDown = &H51FF
+Const Esc = 27
+            
+Dim consoleDimensions As Integer = Width()
+Dim consoleHeight As Integer = HiWord(consoleDimensions)
+Dim linesPerPage as Integer = consoleHeight - 1
+Dim bytesPerPage As Integer = bytesPerline * linesPerPage
 
-Dim fileName As string = Command(1)
+Dim fileName As String = Command(1)
 Dim fileNumber As Long = FreeFile
 Open fileName For Binary Access Read As #fileNumber
 
@@ -22,7 +30,7 @@ Function ByteToAscii(Byval byte_ as Ubyte) as String
 End Function
 
 
-Sub PrintLine(Byval fileIndex as Integer, Byval fileNumber as Integer)
+Sub PrintLine(Byval fileIndex as Longint, Byval fileNumber as Integer)
     Dim asciiBytes As string = ""
     
     Print Hex(fileIndex,6);Tab(hexColumn);
@@ -41,12 +49,24 @@ Sub PrintLine(Byval fileIndex as Integer, Byval fileNumber as Integer)
 End Sub
 
 
-Dim fileIndex As Integer = 1
+Cls
+
+Dim input_ As Long
+Dim fileIndex As Longint = 1
 
 Do
-    PrintLine(fileIndex, fileNumber)  
-    fileIndex += bytesPerLine
-    If (fileIndex\bytesPerLine) mod (consoleHeight-1) = 0 Then Sleep
-Loop Until Eof(fileNumber)
+    Locate 1,1,0
+    For line_ as Integer = 0 To linesPerPage - 1
+        PrintLine(fileIndex + line_*bytesPerLine, fileNumber)  
+    Next
+ 
+    input_ = Getkey
+    Select Case input_
+        case PageUp: fileIndex -= bytesPerPage
+        case Up: fileIndex -= bytesPerLine
+        Case PageDown: fileIndex += bytesPerPage
+        Case Down: fileIndex += bytesPerLine
+    End Select
+Loop Until input_ = Esc
 
 Close(fileNumber)

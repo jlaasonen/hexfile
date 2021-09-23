@@ -67,6 +67,8 @@ Do
         Case PageDown: fileIndex += bytesPerPage
         Case Down: fileIndex += bytesPerLine
     End Select
+    
+    If fileIndex < 1 Then fileIndex = 1
 Loop Until input_ = Esc
 
 Close(fileNumber)

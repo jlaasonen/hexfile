@@ -20,6 +20,10 @@ Dim fileName As String = Command(1)
 Dim fileNumber As Long = FreeFile
 Open fileName For Binary Access Read As #fileNumber
 
+Dim numberOfFullLines As Longint = (Lof(fileNumber)-1) \ bytesPerLine
+Dim lastLineIndex As Longint = numberOfFullLines * bytesPerLine + 1
+Dim lastPageIndex As Longint = lastLineIndex - bytesPerPage + bytesPerLine
+
 
 Function ByteToAscii(Byval byte_ as Ubyte) as String
     If byte_ > asciiLowerBound And byte_ < asciiUpperBound Then
@@ -69,6 +73,7 @@ Do
     End Select
     
     If fileIndex < 1 Then fileIndex = 1
+    If fileIndex > lastPageIndex Then fileIndex = lastPageIndex
 Loop Until input_ = Esc
 
 Close(fileNumber)

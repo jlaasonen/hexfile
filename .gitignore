@@ -1,3 +1,4 @@
 *.exe
 hexfile
 gmon.out
+profile*.txt

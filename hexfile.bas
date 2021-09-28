@@ -35,9 +35,8 @@ End Function
 
 
 Sub PrintLine(Byval fileIndex as Longint, Byval fileNumber as Integer)
-    Dim asciiBytes As string = ""
-    
-    Print Hex(fileIndex,6);Tab(hexColumn);
+    Dim hexBytes As String = ""
+    Dim asciiBytes As String = ""
     
     For byteIndex As integer = 1 To bytesPerLine
         Dim byte_ As Ubyte
@@ -45,11 +44,11 @@ Sub PrintLine(Byval fileIndex as Longint, Byval fileNumber as Integer)
         
         asciiBytes += ByteToAscii(byte_)
 
-        Print Hex(byte_, 2);" ";
-        If byteIndex = bytesPerLine\2 Then Print " ";
+        hexBytes += Hex(byte_, 2) + " "
+        If byteIndex = bytesPerLine\2 Then hexBytes += " "
     Next
     
-    Print Tab(asciiColumn);asciiBytes
+    Print Hex(fileIndex,6);Tab(hexColumn);hexBytes;Tab(asciiColumn);asciiBytes
 End Sub
 
 

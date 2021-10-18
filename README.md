@@ -23,7 +23,7 @@ hexfile <filename>
 Page Up & Page Down show the previuos and the page respectively. Up and down arrows scroll one line at the time.
 Esc will end the program.
 
-![image](https://user-images.githubusercontent.com/404469/134071015-8a2486db-1a37-4dda-a92e-6ab37a1d312a.png)
+![image](https://user-images.githubusercontent.com/404469/137791001-35666b53-f58b-4bed-98a2-0ababba3bdc6.png)
 
 ## Acknowledgements
 

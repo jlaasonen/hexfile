@@ -3,6 +3,7 @@ Const nonAsciiByte = "."
 Const asciiLowerBound = 31
 Const asciiUpperBound = 127
 Const tabWidth = 4
+Const fileIndexWidth = 8
 
 Const Up = &H48FF
 Const PageUp = &H49FF
@@ -47,7 +48,8 @@ Sub PrintLine(Byval fileIndex as Longint, Byval fileNumber as Integer)
         If byteIndex = bytesPerLine\2 Then hexBytes += " "
     Next
     
-    Print Hex(fileIndex,6);Space(tabWidth);hexBytes;Space(tabWidth);asciiBytes
+    Print Hex(fileIndex,fileIndexWidth);Space(tabWidth);hexBytes;_
+          Space(tabWidth-1);asciiBytes
 End Sub
 
 

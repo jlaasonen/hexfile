@@ -6,7 +6,7 @@ Simple command-line tool which prints a hex dump of a file.
 
 ## Requirements
 
-[FreeBASIC-1.08.1](https://freebasic.net/)
+[FreeBASIC-1.09.0](https://freebasic.net/)
 
 ## Compiling
 

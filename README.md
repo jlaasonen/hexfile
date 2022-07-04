@@ -11,7 +11,7 @@ Simple command-line tool which prints a hex dump of a file.
 ## Compiling
 
 ```
-fbc hexfile.bas 
+fbc -e hexfile.bas 
 ```
 
 ## Usage

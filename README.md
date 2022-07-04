@@ -27,4 +27,4 @@ Esc will end the program.
 
 ## Acknowledgements
 
-Inspired by the **hexfile** program in *P.K. McBride, 1989, Programming in GW-BASIC* chapter 15.6.
+Inspired by the **hexfile** program in *[P.K. McBride, 1989, Programming in GW-BASIC](https://archive.org/details/programmingingwb0000mcbr)* chapter 15.6.

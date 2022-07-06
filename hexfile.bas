@@ -2,7 +2,7 @@ Const bytesPerLine = 16
 Const nonAsciiByte = "."
 Const asciiLowerBound = 31
 Const asciiUpperBound = 127
-Const tabWidth = 4
+Const tabWidth = 3
 Const fileIndexWidth = 8
 
 Const Up = &H48FF

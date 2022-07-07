@@ -48,8 +48,8 @@ Sub PrintLine(Byval fileIndex as Longint, Byval fileNumber as Integer)
         If byteIndex = bytesPerLine\2 Then hexBytes += " "
     Next
     
-    Print Hex(fileIndex,fileIndexWidth);Space(tabWidth);hexBytes;_
-          Space(tabWidth-1);asciiBytes
+    Print Hex(fileIndex,fileIndexWidth) + Space(tabWidth) + hexBytes +_
+          Space(tabWidth-1) + asciiBytes
 End Sub
 
 

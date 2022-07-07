@@ -18,11 +18,6 @@ Dim bytesPerPage As Integer = bytesPerline * linesPerPage
 
 Dim fileName As String = Command(1)
 Dim fileNumber As Long = FreeFile
-Open fileName For Binary Access Read As #fileNumber
-
-Dim numberOfFullLines As Longint = (Lof(fileNumber)-1) \ bytesPerLine
-Dim lastLineIndex As Longint = numberOfFullLines * bytesPerLine + 1
-Dim lastPageIndex As Longint = lastLineIndex - bytesPerPage + bytesPerLine
 
 
 Function ByteToAscii(Byval byte_ as Ubyte) as String
@@ -59,27 +54,36 @@ Sub PrintLine(Byval fileIndex as Longint, Byval fileNumber as Integer)
 End Sub
 
 
-Cls
+If Open(fileName For Binary Access Read As #fileNumber) = 0 Then
+   Dim numberOfFullLines As Longint = (Lof(fileNumber)-1) \ bytesPerLine
+   Dim lastLineIndex As Longint = numberOfFullLines * bytesPerLine + 1
+   Dim lastPageIndex As Longint = lastLineIndex - bytesPerPage + bytesPerLine
+   If lastPageIndex < 1 Then lastPageIndex = 1 End If
 
-Dim input_ As Long
-Dim fileIndex As Longint = 1
+   Cls
 
-Do
-    Locate 1,1,0
-    For line_ as Integer = 0 To linesPerPage - 1
-        PrintLine(fileIndex + line_*bytesPerLine, fileNumber)  
-    Next
- 
-    input_ = Getkey
-    Select Case input_
-        case PageUp: fileIndex -= bytesPerPage
-        case Up: fileIndex -= bytesPerLine
-        Case PageDown: fileIndex += bytesPerPage
-        Case Down: fileIndex += bytesPerLine
-    End Select
+   Dim input_ As Long
+   Dim fileIndex As Longint = 1
+
+   Do
+       Locate 1,1,0
+       For line_ as Integer = 0 To linesPerPage - 1
+           PrintLine(fileIndex + line_*bytesPerLine, fileNumber)  
+       Next
     
-    If fileIndex < 1 Then fileIndex = 1
-    If fileIndex > lastPageIndex Then fileIndex = lastPageIndex
-Loop Until input_ = Esc
+       input_ = Getkey
+       Select Case input_
+           case PageUp: fileIndex -= bytesPerPage
+           case Up: fileIndex -= bytesPerLine
+           Case PageDown: fileIndex += bytesPerPage
+           Case Down: fileIndex += bytesPerLine
+       End Select
+       
+       If fileIndex < 1 Then fileIndex = 1
+       If fileIndex > lastPageIndex Then fileIndex = lastPageIndex
+   Loop Until input_ = Esc
 
-Close(fileNumber)
+   Close(fileNumber)
+Else
+   Print "Failed to open file '" + fileName + "'."
+End If

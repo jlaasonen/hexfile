@@ -40,11 +40,17 @@ Sub PrintLine(Byval fileIndex as Longint, Byval fileNumber as Integer)
     
     For byteIndex As integer = 1 To bytesPerLine
         Dim byte_ As Ubyte
-        Get #fileNumber,fileIndex + byteIndex - 1,byte_
+        Dim bytesread As  UInteger
+        Get #fileNumber,fileIndex + byteIndex - 1,byte_, ,bytesread
         
-        asciiBytes += ByteToAscii(byte_)
+        If bytesread > 0 Then
+           asciiBytes += ByteToAscii(byte_)
+           hexBytes += Hex(byte_, 2) + " "
+        Else
+           asciiBytes += " "
+           hexBytes += "   "
+        End If
 
-        hexBytes += Hex(byte_, 2) + " "
         If byteIndex = bytesPerLine\2 Then hexBytes += " "
     Next
     

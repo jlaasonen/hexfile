@@ -1,9 +1,13 @@
 Const bytesPerLine = 16
-Const nonAsciiByte = "."
-Const asciiLowerBound = 31
-Const asciiUpperBound = 127
 Const tabWidth = 3
 Const fileIndexWidth = 8
+
+Const asciiLowerBound = 31
+Const asciiUpperBound = 127
+Const errorByte = "XX"
+Const emptyByte = "  "
+Const emptyAsciiByte = " "
+Const nonAsciiByte = "."
 
 Const Up = &H48FF
 Const PageUp = &H49FF
@@ -33,20 +37,27 @@ Sub PrintLine(Byval fileIndex as Longint, Byval fileNumber as Integer)
     Dim hexBytes As String = ""
     Dim asciiBytes As String = ""
     
-    For byteIndex As integer = 1 To bytesPerLine
-        Dim byte_ As Ubyte
-        Dim bytesread As  UInteger
-        Get #fileNumber,fileIndex + byteIndex - 1,byte_, ,bytesread
-        
-        If bytesread > 0 Then
-           asciiBytes += ByteToAscii(byte_)
-           hexBytes += Hex(byte_, 2) + " "
-        Else
-           asciiBytes += " "
-           hexBytes += "   "
-        End If
+    For byteIndex As Integer = 1 To bytesPerLine
+         Dim currentIndex as Integer = fileIndex + byteIndex - 1
+         Dim byte_ As Ubyte
+         Dim bytesread As UInteger
 
-        If byteIndex = bytesPerLine\2 Then hexBytes += " "
+         If Get(#fileNumber,currentIndex,byte_,1,bytesread) <> 0 Then
+           asciiBytes += emptyAsciiByte
+           hexBytes += errorByte
+         ElseIf bytesread > 0 Then
+           asciiBytes += ByteToAscii(byte_)
+           hexBytes += Hex(byte_, 2)
+         Else
+           asciiBytes += emptyAsciiByte
+           hexBytes += emptyByte
+         End If
+
+         If byteIndex = bytesPerLine\2 Then 
+            hexBytes += "  "
+         Else
+            hexBytes += " "
+         End If
     Next
     
     Print Hex(fileIndex,fileIndexWidth) + Space(tabWidth) + hexBytes +_

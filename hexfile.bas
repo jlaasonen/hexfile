@@ -4,7 +4,6 @@ Const fileIndexWidth = 8
 
 Const asciiLowerBound = 31
 Const asciiUpperBound = 127
-Const errorByte = "XX"
 Const emptyByte = "  "
 Const emptyAsciiByte = " "
 Const nonAsciiByte = "."
@@ -24,6 +23,17 @@ Dim fileName As String = Command(1)
 Dim fileNumber As Long = FreeFile
 
 
+Sub GetLine(Byval fileIndex as Longint, Byval fileNumber as Integer, bytes() as UByte)
+   Dim bytesread As UInteger
+
+   If Get(#fileNumber,fileIndex,bytes(), ,bytesread) = 0 Then
+      ReDim Preserve bytes(bytesread)
+   Else
+      Erase bytes
+   End If
+End Sub
+
+
 Function ByteToAscii(Byval byte_ as Ubyte) as String
     If byte_ > asciiLowerBound And byte_ < asciiUpperBound Then
         Return Chr(byte_)
@@ -33,19 +43,13 @@ Function ByteToAscii(Byval byte_ as Ubyte) as String
 End Function
 
 
-Sub PrintLine(Byval fileIndex as Longint, Byval fileNumber as Integer)
+Sub PrintLine(Byval fileIndex as Longint, bytes() as UByte)
     Dim hexBytes As String = ""
     Dim asciiBytes As String = ""
     
-    For byteIndex As Integer = 1 To bytesPerLine
-         Dim currentIndex as Integer = fileIndex + byteIndex - 1
-         Dim byte_ As Ubyte
-         Dim bytesread As UInteger
-
-         If Get(#fileNumber,currentIndex,byte_,1,bytesread) <> 0 Then
-           asciiBytes += emptyAsciiByte
-           hexBytes += errorByte
-         ElseIf bytesread > 0 Then
+    For byteIndex As Integer = LBound(bytes) To LBound(bytes) + bytesPerLine - 1
+         If byteIndex <= UBound(bytes) Then
+           Dim byte_ As UByte = bytes(byteIndex)
            asciiBytes += ByteToAscii(byte_)
            hexBytes += Hex(byte_, 2)
          Else
@@ -79,7 +83,10 @@ If Open(fileName For Binary Access Read As #fileNumber) = 0 Then
    Do
        Locate 1,1,0
        For line_ as Integer = 0 To linesPerPage - 1
-           PrintLine(fileIndex + line_*bytesPerLine, fileNumber)  
+          Dim lineIndex as Longint = fileIndex + line_*bytesPerLine
+          ReDim bytes(bytesPerLine) as UByte
+          GetLine(lineIndex, fileNumber, bytes())
+          PrintLine(lineIndex, bytes())  
        Next
     
        input_ = Getkey

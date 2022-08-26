@@ -13,7 +13,7 @@ Const PageUp = &H49FF
 Const Down = &H50FF
 Const PageDown = &H51FF
 Const Esc = 27
-            
+
 Dim consoleDimensions As Integer = Width()
 Dim consoleHeight As Integer = HiWord(consoleDimensions)
 Dim linesPerPage as Integer = consoleHeight - 1
@@ -35,37 +35,37 @@ End Sub
 
 
 Function ByteToAscii(Byval byte_ as Ubyte) as String
-    If byte_ > asciiLowerBound And byte_ < asciiUpperBound Then
-        Return Chr(byte_)
-    Else
-        Return nonAsciiByte
-    End If
+   If byte_ > asciiLowerBound And byte_ < asciiUpperBound Then
+      Return Chr(byte_)
+   Else
+      Return nonAsciiByte
+   End If
 End Function
 
 
 Sub PrintLine(Byval fileIndex as Longint, bytes() as UByte)
-    Dim hexBytes As String = ""
-    Dim asciiBytes As String = ""
-    
-    For byteIndex As Integer = LBound(bytes) To LBound(bytes) + bytesPerLine - 1
-         If byteIndex <= UBound(bytes) Then
-           Dim byte_ As UByte = bytes(byteIndex)
-           asciiBytes += ByteToAscii(byte_)
-           hexBytes += Hex(byte_, 2)
-         Else
-           asciiBytes += emptyAsciiByte
-           hexBytes += emptyByte
-         End If
+   Dim hexBytes As String = ""
+   Dim asciiBytes As String = ""
 
-         If byteIndex = bytesPerLine\2 Then 
-            hexBytes += "  "
-         Else
-            hexBytes += " "
-         End If
-    Next
-    
-    Print Hex(fileIndex,fileIndexWidth) + Space(tabWidth) + hexBytes +_
-          Space(tabWidth-1) + asciiBytes
+   For byteIndex As Integer = LBound(bytes) To LBound(bytes) + bytesPerLine - 1
+      If byteIndex <= UBound(bytes) Then
+         Dim byte_ As UByte = bytes(byteIndex)
+         asciiBytes += ByteToAscii(byte_)
+         hexBytes += Hex(byte_, 2)
+      Else
+         asciiBytes += emptyAsciiByte
+         hexBytes += emptyByte
+      End If
+
+      If byteIndex = bytesPerLine\2 Then 
+         hexBytes += "  "
+      Else
+         hexBytes += " "
+      End If
+   Next
+
+   Print Hex(fileIndex,fileIndexWidth) + Space(tabWidth) + hexBytes +_
+         Space(tabWidth-1) + asciiBytes
 End Sub
 
 
@@ -81,24 +81,24 @@ If Open(fileName For Binary Access Read As #fileNumber) = 0 Then
    Dim fileIndex As Longint = 1
 
    Do
-       Locate 1,1,0
-       For line_ as Integer = 0 To linesPerPage - 1
-          Dim lineIndex as Longint = fileIndex + line_*bytesPerLine
-          ReDim bytes(bytesPerLine) as UByte
-          GetLine(lineIndex, fileNumber, bytes())
-          PrintLine(lineIndex, bytes())  
-       Next
-    
-       input_ = Getkey
-       Select Case input_
-           case PageUp: fileIndex -= bytesPerPage
-           case Up: fileIndex -= bytesPerLine
-           Case PageDown: fileIndex += bytesPerPage
-           Case Down: fileIndex += bytesPerLine
-       End Select
-       
-       If fileIndex < 1 Then fileIndex = 1
-       If fileIndex > lastPageIndex Then fileIndex = lastPageIndex
+      Locate 1,1,0
+      For line_ as Integer = 0 To linesPerPage - 1
+         Dim lineIndex as Longint = fileIndex + line_*bytesPerLine
+         Redim bytes(bytesPerLine) as UByte
+         GetLine(lineIndex, fileNumber, bytes())
+         PrintLine(lineIndex, bytes())  
+      Next
+
+      input_ = Getkey
+      Select Case input_
+         Case PageUp: fileIndex -= bytesPerPage
+         Case Up: fileIndex -= bytesPerLine
+         Case PageDown: fileIndex += bytesPerPage
+         Case Down: fileIndex += bytesPerLine
+      End Select
+
+      If fileIndex < 1 Then fileIndex = 1
+      If fileIndex > lastPageIndex Then fileIndex = lastPageIndex
    Loop Until input_ = Esc
 
    Close(fileNumber)

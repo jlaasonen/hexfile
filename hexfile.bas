@@ -8,11 +8,17 @@ Const emptyByte = "  "
 Const emptyAsciiByte = " "
 Const nonAsciiByte = "."
 
-Const Up = &H48FF
-Const PageUp = &H49FF
-Const Down = &H50FF
-Const PageDown = &H51FF
-Const Esc = 27
+
+Enum Keys Explicit
+   Up = &H48FF
+   PageUp = &H49FF
+   Down = &H50FF
+   PageDown = &H51FF
+   Home = &H47FF
+   End_ = &H4FFF
+   Esc = 27
+End Enum
+
 
 Dim consoleDimensions As Integer = Width()
 Dim consoleHeight As Integer = HiWord(consoleDimensions)
@@ -95,16 +101,18 @@ If Open(fileName For Binary Access Read As #fileNumber) = 0 Then
       Next
 
       input_ = Getkey
-      Select Case input_
-         Case PageUp: fileIndex -= bytesPerPage
-         Case Up: fileIndex -= bytesPerLine
-         Case PageDown: fileIndex += bytesPerPage
-         Case Down: fileIndex += bytesPerLine
+      Select Case as Const input_
+         Case Keys.PageUp: fileIndex -= bytesPerPage
+         Case Keys.Up: fileIndex -= bytesPerLine
+         Case Keys.PageDown: fileIndex += bytesPerPage
+         Case Keys.Down: fileIndex += bytesPerLine
+         Case Keys.Home: fileIndex = 0
+         Case Keys.End_: fileIndex = lastPageIndex
       End Select
 
       If fileIndex < 1 Then fileIndex = 1
       If fileIndex > lastPageIndex Then fileIndex = lastPageIndex
-   Loop Until input_ = Esc
+   Loop Until input_ = Keys.Esc
 
    Close(fileNumber)
 Else

@@ -16,7 +16,7 @@ Const Esc = 27
 
 Dim consoleDimensions As Integer = Width()
 Dim consoleHeight As Integer = HiWord(consoleDimensions)
-Dim linesPerPage as Integer = consoleHeight - 1
+Dim linesPerPage as Integer = consoleHeight
 Dim bytesPerPage As Integer = bytesPerline * linesPerPage
 
 Dim fileName As String = Command(1)
@@ -43,7 +43,7 @@ Function ByteToAscii(Byval byte_ as Ubyte) as String
 End Function
 
 
-Sub PrintLine(Byval fileIndex as Longint, bytes() as UByte)
+Function MakeLine(Byval fileIndex as Longint, bytes() as UByte) as String
    Dim hexBytes As String = ""
    Dim asciiBytes As String = ""
 
@@ -64,9 +64,9 @@ Sub PrintLine(Byval fileIndex as Longint, bytes() as UByte)
       End If
    Next
 
-   Print Hex(fileIndex,fileIndexWidth) + Space(tabWidth) + hexBytes +_
-         Space(tabWidth-1) + asciiBytes
-End Sub
+   Return Hex(fileIndex,fileIndexWidth) + Space(tabWidth) + hexBytes +_
+		Space(tabWidth-1) + asciiBytes
+End Function
 
 
 If Open(fileName For Binary Access Read As #fileNumber) = 0 Then
@@ -82,11 +82,16 @@ If Open(fileName For Binary Access Read As #fileNumber) = 0 Then
 
    Do
       Locate 1,1,0
-      For line_ as Integer = 0 To linesPerPage - 1
-         Dim lineIndex as Longint = fileIndex + line_*bytesPerLine
+      For lineNumber as Integer = 1 To linesPerPage
+         Dim lineIndex as Longint = fileIndex + (lineNumber-1)*bytesPerLine
          Redim bytes(bytesPerLine) as UByte
          GetLine(lineIndex, fileNumber, bytes())
-         PrintLine(lineIndex, bytes())  
+         Dim lineText as String = MakeLine(lineIndex, bytes())
+			If lineNumber = linesPerPage Then
+				Print lineText;
+			Else
+				Print lineText
+			End If
       Next
 
       input_ = Getkey

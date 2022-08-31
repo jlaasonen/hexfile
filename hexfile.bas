@@ -75,7 +75,31 @@ Function MakeLine(Byval fileIndex as Longint, bytes() as UByte) as String
 End Function
 
 
-If Open(fileName For Binary Access Read As #fileNumber) = 0 Then
+If fileName = "" Then
+   Const firstColumn = 4
+   Const secondColumn = 12
+   
+   Dim controls(7,2) as String = {_
+      {"Down", "Scroll down one line."},_
+      {"Up", "Scroll up one line."},_
+      {"PgDown", "Show next page."},_
+      {"PgUp", "Show previos page."},_
+      {"End", "Jump to the end of the file."},_
+      {"Home", "Jump to the beginning of the file."},_
+      {"Esc", "Quit."}_
+   }
+
+   Print "Usage: hexfile <file>"
+   Print
+   Print "Displays a hex dump the file."
+   Print
+   Print "Controls:"
+   
+   For row As Integer = LBound(controls) To UBound(controls)
+      Print Tab(firstColumn);controls(row,0);Tab(secondColumn);controls(row,1)
+   Next
+
+Elseif Open(fileName For Binary Access Read As #fileNumber) = 0 Then
    Dim numberOfFullLines As Longint = (Lof(fileNumber)-1) \ bytesPerLine
    Dim lastLineIndex As Longint = numberOfFullLines * bytesPerLine + 1
    Dim lastPageIndex As Longint = lastLineIndex - bytesPerPage + bytesPerLine

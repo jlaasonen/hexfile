@@ -117,11 +117,11 @@ Elseif Open(fileName For Binary Access Read As #fileNumber) = 0 Then
          Redim bytes(bytesPerLine) as UByte
          GetLine(lineIndex, fileNumber, bytes())
          Dim lineText as String = MakeLine(lineIndex, bytes())
-			If lineNumber = linesPerPage Then
-				Print lineText;
-			Else
-				Print lineText
-			End If
+         If lineNumber = linesPerPage Then
+            Print lineText;
+         Else
+            Print lineText
+         End If
       Next
 
       input_ = Getkey

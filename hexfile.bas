@@ -79,7 +79,7 @@ If fileName = "" Then
    Const firstColumn = 4
    Const secondColumn = 12
    
-   Dim controls(7,2) as String = {_
+   Dim controls(0 to ..., 2) as String = {_
       {"Down", "Scroll down one line."},_
       {"Up", "Scroll up one line."},_
       {"PgDown", "Show next page."},_

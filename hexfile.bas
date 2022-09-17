@@ -71,7 +71,7 @@ Function MakeLine(Byval fileIndex as Longint, bytes() as UByte) as String
    Next
 
    Return Hex(fileIndex,fileIndexWidth) + Space(tabWidth) + hexBytes +_
-		Space(tabWidth-1) + asciiBytes
+       Space(tabWidth-1) + asciiBytes
 End Function
 
 
@@ -89,15 +89,21 @@ If fileName = "" Then
       {"Esc", "Quit."}_
    }
 
+   Print "hexfile - a simple commandline hexdumper"
+   Print "  (c) 2021-2022 Jussi Laasonen. Licensed under the MIT license."
+   Print "  See https://github.com/jlaasonen/hexfile for full license."
+   Print
    Print "Usage: hexfile <file>"
    Print
-   Print "Displays a hex dump the file."
+   Print "Displays an interactive hex dump the file."
    Print
    Print "Controls:"
    
    For row As Integer = LBound(controls) To UBound(controls)
       Print Tab(firstColumn);controls(row,0);Tab(secondColumn);controls(row,1)
    Next
+   
+   Print
 
 Elseif Open(fileName For Binary Access Read As #fileNumber) = 0 Then
    Dim numberOfFullLines As Longint = (Lof(fileNumber)-1) \ bytesPerLine

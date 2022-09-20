@@ -70,8 +70,8 @@ Function MakeLine(Byval fileIndex as Longint, bytes() as UByte) as String
       End If
    Next
 
-   Return Hex(fileIndex,fileIndexWidth) + Space(tabWidth) + hexBytes +_
-       Space(tabWidth-1) + asciiBytes
+   Return Space(1) + Hex(fileIndex,fileIndexWidth) + Space(tabWidth) +_
+      hexBytes + Space(tabWidth-1) + asciiBytes
 End Function
 
 

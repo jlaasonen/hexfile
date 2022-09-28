@@ -1,6 +1,8 @@
 Const bytesPerLine = 16
 Const tabWidth = 3
 Const fileIndexWidth = 8
+Const firstIndex = 1
+Const firstIndexDisplay = 0
 
 Const asciiLowerBound = 31
 Const asciiUpperBound = 127
@@ -70,7 +72,8 @@ Function MakeLine(Byval fileIndex as Longint, bytes() as UByte) as String
       End If
    Next
 
-   Return Space(1) + Hex(fileIndex,fileIndexWidth) + Space(tabWidth) +_
+   Dim displayIndex as Const Longint = fileIndex - firstIndex + firstIndexDisplay
+   Return Space(1) + Hex(displayIndex,fileIndexWidth) + Space(tabWidth) +_
       hexBytes + Space(tabWidth-1) + asciiBytes
 End Function
 
@@ -107,14 +110,14 @@ If fileName = "" Then
 
 Elseif Open(fileName For Binary Access Read As #fileNumber) = 0 Then
    Dim numberOfFullLines As Longint = (Lof(fileNumber)-1) \ bytesPerLine
-   Dim lastLineIndex As Longint = numberOfFullLines * bytesPerLine + 1
+   Dim lastLineIndex As Longint = numberOfFullLines * bytesPerLine + firstIndex
    Dim lastPageIndex As Longint = lastLineIndex - bytesPerPage + bytesPerLine
-   If lastPageIndex < 1 Then lastPageIndex = 1 End If
+   If lastPageIndex < firstIndex Then lastPageIndex = firstIndex End If
 
    Cls
 
    Dim input_ As Long
-   Dim fileIndex As Longint = 1
+   Dim fileIndex As Longint = firstIndex
 
    Do
       Locate 1,1,0
@@ -136,11 +139,11 @@ Elseif Open(fileName For Binary Access Read As #fileNumber) = 0 Then
          Case Keys.Up: fileIndex -= bytesPerLine
          Case Keys.PageDown: fileIndex += bytesPerPage
          Case Keys.Down: fileIndex += bytesPerLine
-         Case Keys.Home: fileIndex = 0
+         Case Keys.Home: fileIndex = firstIndex
          Case Keys.End_: fileIndex = lastPageIndex
       End Select
 
-      If fileIndex < 1 Then fileIndex = 1
+      If fileIndex < firstIndex Then fileIndex = firstIndex
       If fileIndex > lastPageIndex Then fileIndex = lastPageIndex
    Loop Until input_ = Keys.Esc
 

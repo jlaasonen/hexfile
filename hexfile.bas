@@ -2,7 +2,6 @@ Const bytesPerLine = 16
 Const tabWidth = 3
 Const fileIndexWidth = 8
 Const firstIndex = 1
-Const firstIndexDisplay = 0
 
 Const asciiLowerBound = 31
 Const asciiUpperBound = 127
@@ -10,6 +9,7 @@ Const emptyByte = "  "
 Const emptyAsciiByte = " "
 Const nonAsciiByte = "."
 
+Const fileIndexArgument = "-i"
 
 Enum Keys Explicit
    Up = &H48FF
@@ -27,9 +27,17 @@ Dim consoleHeight As Integer = HiWord(consoleDimensions)
 Dim linesPerPage as Integer = consoleHeight
 Dim bytesPerPage As Integer = bytesPerline * linesPerPage
 
-Dim fileName As String = Command(1)
-Dim fileNumber As Long = FreeFile
+Dim fileName As String = ""
+Dim firstIndexDisplay as Longint = 0
 
+If __FB_ARGC__ = 2 Then
+   fileName = Command(1)
+Elseif __FB_ARGC__ = 4  And Command(1) = fileIndexArgument Then
+   firstIndexDisplay = Vallng(Command(2))
+   fileName = Command(3)
+End If
+
+Dim fileNumber As Long = FreeFile
 
 Sub GetLine(Byval fileIndex as Longint, Byval fileNumber as Integer, bytes() as UByte)
    Dim bytesread As UInteger
@@ -51,7 +59,7 @@ Function ByteToAscii(Byval byte_ as Ubyte) as String
 End Function
 
 
-Function MakeLine(Byval fileIndex as Longint, bytes() as UByte) as String
+Function MakeLine(Byval firstIndexDisplay as Longint, Byval fileIndex as Longint, bytes() as UByte) as String
    Dim hexBytes As String = ""
    Dim asciiBytes As String = ""
 
@@ -96,7 +104,7 @@ If fileName = "" Then
    Print "  (c) 2021-2022 Jussi Laasonen. Licensed under the MIT license."
    Print "  See https://github.com/jlaasonen/hexfile for full license."
    Print
-   Print "Usage: hexfile <file>"
+   Print "Usage: hexfile [-i <first index>] <file>"
    Print
    Print "Displays an interactive hex dump the file."
    Print
@@ -107,6 +115,11 @@ If fileName = "" Then
    Next
    
    Print
+   Print "Options:"
+   Print "  -i <first index>"
+   Print "    Starts the displayed file index from the given index. Defaults to 0."
+   Print "    The value is expected in decimal format. For binary, octal or hexadecimal"
+   Print "    Use prefix &B, &O or &H respectively."
 
 Elseif Open(fileName For Binary Access Read As #fileNumber) = 0 Then
    Dim numberOfFullLines As Longint = (Lof(fileNumber)-1) \ bytesPerLine
@@ -125,7 +138,7 @@ Elseif Open(fileName For Binary Access Read As #fileNumber) = 0 Then
          Dim lineIndex as Longint = fileIndex + (lineNumber-1)*bytesPerLine
          Redim bytes(bytesPerLine) as UByte
          GetLine(lineIndex, fileNumber, bytes())
-         Dim lineText as String = MakeLine(lineIndex, bytes())
+         Dim lineText as String = MakeLine(firstIndexDisplay, lineIndex, bytes())
          If lineNumber = linesPerPage Then
             Print lineText;
          Else

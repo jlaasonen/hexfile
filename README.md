@@ -17,13 +17,15 @@ fbc -e -w all -w pedantic -w error hexfile.bas
 ## Usage
 
 ```
-hexfile <filename>
+hexfile [-i <start index>] <filename>
 ```
+
+Start index can be given in format supported by the [VALLNG](https://www.freebasic.net/wiki/KeyPgVallng) function.
 
 Page Up & Page Down show the previuos and the page respectively. Up and down arrows scroll one line at the time.
 Esc will end the program.
 
-![image](https://user-images.githubusercontent.com/404469/191337881-d9f60e39-1077-4deb-bc50-e8f87275d636.png)
+![image](https://user-images.githubusercontent.com/404469/208312277-d7a22c13-2530-4658-8931-4adaa6404e34.png)
 
 ## Acknowledgements
 

@@ -2,3 +2,5 @@
 hexfile
 gmon.out
 profile*.txt
+*.zip
+*.gz

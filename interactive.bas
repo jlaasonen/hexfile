@@ -54,7 +54,7 @@ Function MakeLine(Byval firstIndexDisplay as Longint, Byval fileIndex as Longint
          hexBytes += emptyByte
       End If
 
-      If byteIndex = bytesPerLine\2 Then 
+      If byteIndex = (bytesPerLine\2)-1 Then 
          hexBytes += "  "
       Else
          hexBytes += " "

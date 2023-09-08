@@ -1,0 +1,36 @@
+version: '3'
+
+vars:
+  FB_ARGS: -e -w all -w pedantic -w error
+
+tasks:
+  build:
+    desc: Build the application.
+    cmds:
+      - fbc {{.FB_ARGS}} hexfile.bas
+    sources:
+      - interactive.bas
+      - usage.bas
+      - hexfile.bas
+    generates:
+      - hexfile{{exeExt}}
+
+  test:build:
+    desc: Build the test application.
+    cmds:
+      - fbc {{.FB_ARGS}} test.bas 
+    sources:
+      - lib/fbtesting/fbtesting.bas
+      - lib/fbtesting/fbtesting.bi
+      - interactive.bas
+      - test.bas
+    generates:
+      - test{{exeExt}}
+
+  test:
+    desc: Run all tests.
+    deps: [test:build]
+    cmds:
+      - ./test{{exeExt}}
+    sources:
+      - test{{exeExt}}

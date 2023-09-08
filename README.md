@@ -6,12 +6,37 @@ Simple command-line tool which prints a hex dump of a file.
 
 ## Requirements
 
-[FreeBASIC-1.09.0](https://freebasic.net/)
+- [FreeBASIC-1.10.0](https://freebasic.net/)
+- [fbtesting](https://github.com/jlaasonen/fbtesting) for testing. Copy fbtesting files under `lib/fbtesting`.
+- [task](https://taskfile.dev/) (optional) building and running tests.
 
 ## Compiling
 
+Compile using _task_
+
+```
+task build
+```
+
+, or with plain _fbc_
+
 ```
 fbc -e -w all -w pedantic -w error hexfile.bas 
+```
+
+## Testing
+
+Compile and run tests with _task_
+
+```
+task test
+```
+
+, or with plain _fbc_
+
+```
+fbc -e -w all -w pedantic -w error test.bas
+./test
 ```
 
 ## Usage
@@ -30,3 +55,7 @@ Esc will end the program.
 ## Acknowledgements
 
 Inspired by the **hexfile** program in *[P.K. McBride, 1989, Programming in GW-BASIC](https://archive.org/details/programmingingwb0000mcbr)* chapter 15.6.
+
+
+
+

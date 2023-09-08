@@ -1,6 +1,9 @@
 *.exe
 hexfile
+test
 gmon.out
 profile*.txt
 *.zip
 *.gz
+.task
+lib

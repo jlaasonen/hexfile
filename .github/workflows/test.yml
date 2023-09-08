@@ -1,0 +1,38 @@
+name: Test
+
+on:
+  # Triggers the workflow on push or pull request events but only for the "main" branch
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v3
+
+      - name: Install FreeBASIC
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y gcc libncurses5-dev libtinfo5
+          wget http://downloads.sourceforge.net/fbc/FreeBASIC-1.10.0-ubuntu-22.04-x86_64.tar.xz
+          tar xvf FreeBASIC-1.10.0-ubuntu-22.04-x86_64.tar.xz
+          cd FreeBASIC-1.10.0-ubuntu-22.04-x86_64
+          sudo ./install.sh -i
+
+      - name: Install Task
+        run: sudo snap install task --classic
+
+      - name: Install fbtesting
+        run: git clone https://github.com/jlaasonen/fbtesting.git lib/fbtesting
+
+      - name: Run tests
+        run: task test
+

@@ -1,5 +1,7 @@
 # hexfile
 
+[![Test](https://github.com/jlaasonen/hexfile/actions/workflows/test.yml/badge.svg)](https://github.com/jlaasonen/hexfile/actions/workflows/test.yml)
+
 Simple command-line tool which prints a hex dump of a file.
 
 [![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/jlaasonen/hexfile)

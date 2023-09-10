@@ -23,7 +23,7 @@ End Enum
 Sub GetLine(Byval fileIndex as Longint, Byval fileNumber as Integer, bytes() as UByte)
    Dim bytesread As UInteger
 
-   If Get(#fileNumber,fileIndex,bytes(), ,bytesread) = 0 Then
+   If Get(#fileNumber,fileIndex,bytes(), ,bytesread) = 0 and bytesread > 0 Then
       ReDim Preserve bytes(bytesread)
    Else
       Erase bytes

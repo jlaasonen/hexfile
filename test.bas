@@ -6,7 +6,6 @@ using fbtesting
 dim tester as Testing = Testing("hexfile")
 
 sub TestGetLine(byref t as Testing)
-   t.Skip()
    Const fileName = "test.txt"
    Dim fileNumber As Long = FreeFile
   

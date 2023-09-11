@@ -34,10 +34,9 @@ sub TestPartial(byref t as Testing)
 end sub
 
 sub TestEmpty(byref t as Testing)
-   t.Skip()
    dim bytes(any) as UByte
    dim result as string = MakeLine(0, 1, bytes())
-   dim expected as string = "                                                                               "
+   dim expected as string = ""
    if result <> expected then t.Error("Expected  " +  expected + !"\n, but got " + result)
 end sub
 

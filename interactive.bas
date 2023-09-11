@@ -41,6 +41,8 @@ End Function
 
 
 Function MakeLine(Byval firstIndexDisplay as Longint, Byval fileIndex as Longint, bytes() as UByte) as String
+   If UBound(bytes) < LBound(bytes) Then Return "" End If
+
    Dim hexBytes As String = ""
    Dim asciiBytes As String = ""
 

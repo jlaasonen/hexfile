@@ -52,7 +52,7 @@ Start index can be given in format supported by the [VALLNG](https://www.freebas
 Page Up & Page Down show the previuos and the page respectively. Up and down arrows scroll one line at the time.
 Esc will end the program.
 
-![image](https://user-images.githubusercontent.com/404469/208312277-d7a22c13-2530-4658-8931-4adaa6404e34.png)
+![image](https://github.com/jlaasonen/hexfile/assets/404469/0ddbc8a7-246b-4782-8b7b-3b73bf0421c7)
 
 ## Acknowledgements
 

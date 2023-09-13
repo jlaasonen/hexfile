@@ -13,7 +13,7 @@ Sub PrintUsage()
    }
 
    Print "hexfile - a simple commandline hexdumper"
-   Print "  (c) 2021-2022 Jussi Laasonen. Licensed under the MIT license."
+   Print "  (c) 2021-2023 Jussi Laasonen. Licensed under the MIT license."
    Print "  See https://github.com/jlaasonen/hexfile for full license."
    Print
    Print "Usage: hexfile [-i <first index>] <file>"

@@ -11,6 +11,7 @@ Simple command-line tool which prints a hex dump of a file.
 - [FreeBASIC-1.10.0](https://freebasic.net/)
 - [fbtesting](https://github.com/jlaasonen/fbtesting) for testing. Copy fbtesting files under `lib/fbtesting`.
 - [task](https://taskfile.dev/) (optional) building and running tests.
+- Compiling in DOS requires long filename support.
 
 ## Compiling
 

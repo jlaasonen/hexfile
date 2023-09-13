@@ -5,5 +5,6 @@ gmon.out
 profile*.txt
 *.zip
 *.gz
+*.xz
 .task
 lib

@@ -4,7 +4,15 @@
 
 Simple command-line tool which prints a hex dump of a file.
 
-[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/jlaasonen/hexfile)
+## Sources
+
+hexfile is available at:
+
+- **Codeberg** https://codeberg.org/jlaasonen/hexfile
+- **sourcehut** https://git.sr.ht/~jlaasonen/hexfile
+- **GitHub** https://github.com/jlaasonen/hexfile
+
+  [![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/jlaasonen/hexfile)
 
 ## Requirements
 
